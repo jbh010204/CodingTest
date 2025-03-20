@@ -1,11 +1,10 @@
 def solution(phone_book):
     answer = True
+    phone_set = set(phone_book)
     
-    phone_book.sort()
-    
-    for i in range(len(phone_book) - 1):
-        if phone_book[i+1].startswith(phone_book[i]):
-            answer = False
-        
-    
+    for phone in phone_book:
+        for i in range(1, len(phone)):
+            if phone[:i] in phone_set:
+                return False
+            
     return answer
