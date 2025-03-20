@@ -1,17 +1,15 @@
 def solution(participant, completion):
-    
-    dic =  {}
+    answer = ''
+    temp = 0
+    dic = {}
     for i in participant:
-        if i in dic:
-            dic[i] += 1
-        else:
-            dic[i] = 1
-        
-        
-    for i in completion:
-        dic[i] -= 1
-        if dic[i] == 0:
-            del dic[i]
+        dic[hash(i)] = i
+        temp += int(hash(i))
     
-    answer = list(dic.keys())[0]
+    for i in completion:
+        temp -= hash(i)
+    
+    answer = dic[temp]
+
     return answer
+
