@@ -8,12 +8,10 @@ class Solution {
     static char[][] gp;
     static boolean[][] visited;
     static Queue<int[]> q = new LinkedList<>();
-    static int[] dx = {-1,1,0,0};
-    static int[] dy = {0,0,-1,1};
+    static final int[] dx = {-1,1,0,0};
+    static final int[] dy = {0,0,-1,1};
     static int ans;
-    static int row;
-    static int col;
-    static boolean flag;
+    static int row, col;
     
     public int solution(String[] storage, String[] requests) {
         row = storage.length;
@@ -28,14 +26,7 @@ class Solution {
         
         process(requests);
         
-                // 확인용 출력
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                System.out.print(gp[i][j] + " ");
-            }
-            System.out.println();
-        }
-        
+        debugPrint();
 
         return ans;
     }
@@ -82,15 +73,10 @@ class Solution {
     
     private boolean dfs(int x, int y){
         visited[x][y] = true;
-        if(x == 0 && 0 <= y && y < col) flag = true; //상
-        if(x == row-1 && 0 <= y && y < col) flag = true; //하
-        if(y == 0 && 0 <= x && x < row) flag = true; //좌
-        if(y == col-1 && 0 <= x && x < row) flag = true; //우
         
-        if(flag){
-            return flag;
-        }
-        
+        // 외부와 닿으면 true 반환
+        if (x == 0 || y == 0 || x == row - 1 || y == col - 1) return true;
+    
         for(int i=0; i<4; i++){
             int nx = x + dx[i];
             int ny = y + dy[i];
@@ -98,16 +84,21 @@ class Solution {
             if(visited[nx][ny]) continue;
             if(gp[nx][ny] != '.') continue;
             
-            dfs(nx,ny);
+            if(dfs(nx,ny)) return true;
         }
-        return flag;
+        return false;
     }
     
     private void init(){
-        for(int i=0; i<row; i++){
-            flag = false;
-            Arrays.fill(visited[i], false);
+        for(boolean[] arr: visited){
+            Arrays.fill(arr, false);
         }
-    }    
+    }
+    
+    private void debugPrint() {
+    for (char[] line : gp) {
+        System.out.println(Arrays.toString(line));
+    }
+}
 }
     
