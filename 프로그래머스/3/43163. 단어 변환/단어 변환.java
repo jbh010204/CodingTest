@@ -46,10 +46,12 @@ class Solution {
             if(a.charAt(i) != b.charAt(i)){
                 tmp++;
             }
-        }
-        if(tmp != 1){
+            
+            if(tmp > 1){
             return false;
+            }
         }
+        
         return true;
     }
 }
