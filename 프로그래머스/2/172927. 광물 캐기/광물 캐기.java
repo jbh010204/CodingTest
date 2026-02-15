@@ -8,53 +8,45 @@ class Solution {
             remainPicks += picks[i];
         }
         
-        dfs(0,0,0,minerals,0, picks, remainPicks);
+        dfs(0,0,minerals, picks,remainPicks);
         
         return tired;
     }
 
-    void dfs(int idx, int current, int cntTired, String[] minerals, int picksIdx, int[] picks, int remainPicks){
+    void dfs(int idx, int cntTired, String[] minerals, int[] picks, int remainPicks){
         
-        while(current > 0){
-            if(idx == minerals.length){
-                tired = Math.min(tired, cntTired);            
-                return;
-            }    
-            
-            int i;
-            if(minerals[idx].equals("diamond")){
-                i = 0;
-            }
-            else if(minerals[idx].equals("iron")){
-                i = 1;
-            }
-            else{
-                i = 2;
-            }
-            
-            cntTired += matrix[picksIdx][i];
-            current--;
-            idx ++;
-            
+        if(remainPicks == 0 || idx == minerals.length){
+            tired = Math.min(tired, cntTired);
+            return;
         }
-        
-        
-        if(current == 0){
-            if(remainPicks == 0){
-                tired = Math.min(tired, cntTired);            
-                return;
-            }
-            
-            for(int i=0; i<3; i++){
-                if(picks[i] > 0) {
-                    picks[i]--;
-                    remainPicks--;
-                    dfs(idx, 5, cntTired, minerals, i, picks, remainPicks);
-                    picks[i]++;
-                    remainPicks++;
-                    
+
+        for(int i=0; i<3; i++){
+            if(picks[i] > 0) {
+                picks[i]--;
+                
+                int tempTired = cntTired;
+                int tempIdx = idx;
+                
+                for(int k = 0; tempIdx < minerals.length && k<5; k++){
+                    tempTired += calculate(minerals[tempIdx++], i);
                 }
+                    
+                dfs(tempIdx, tempTired , minerals, picks, remainPicks - 1);
+                    
+                picks[i]++;
             }
+        }
+    }
+    
+    int calculate(String rocks, int picksIdx){
+        if(rocks.equals("diamond")){
+            return matrix[picksIdx][0];
+        }
+        else if(rocks.equals("iron")){
+            return matrix[picksIdx][1];
+        }
+        else{
+            return matrix[picksIdx][2];
         }
     }
 }
