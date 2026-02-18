@@ -8,14 +8,12 @@ class Main {
     static class Data implements Comparable<Data>{
         int s; int e;
 
-        public Data(int s, int e){
-            this.s=s;
-            this.e=e;
-        }
+        public Data(int s, int e){ this.s=s; this.e=e;}
 
         @Override
         public int compareTo(Data o){
-            return this.s - o.s;
+            if(this.s != o.s) return Integer.compare(this.s, o.s);
+            else return Integer.compare(this.e, o.e);
         }
     }
     
@@ -35,26 +33,14 @@ class Main {
         }
         
         while(!pq.isEmpty()){
-            boolean flag = false;
             Data d = pq.poll();
-        
-            if(room.size() == 0){
-                room.add(d.e);
-                continue;
-            }
-
-
-            int end = room.poll();
-            if(d.s < end) {
-                room.add(end);
-                room.add(d.e);
+                
+            if(!room.isEmpty() && room.peek() <= d.s) {
+                room.poll();
             } 
-            else{
-                room.add(d.e);
-            }
+            room.add(d.e);
         }
 
         System.out.println(room.size());
-        
     }
 }
