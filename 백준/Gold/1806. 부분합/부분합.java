@@ -20,24 +20,19 @@ class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        int s=0; int e=0;
-        int sum=arr[0];
-        boolean flag = false;
-        while(s <= e && (e < N)){
-            // System.out.println(s + " " + e + " " + sum);
-            if(sum >= S){
-                flag = true;
+        int s=0;
+        int sum=0;
+        for(int e=0; e<N; e++){
+            sum += arr[e];
+
+            while(sum >= S){
                 min = Math.min(min, e-s+1);
-                sum -= arr[s++];
+                sum -=arr[s++];
             }
-            else{
-                if(e+1 >= N) break;
-                sum += arr[++e];
-            }
-            
         }
 
-        System.out.println((flag) ? min : 0);
+        System.out.println((min==Integer.MAX_VALUE) ? 0 : min);
         
     }
+    
 }
