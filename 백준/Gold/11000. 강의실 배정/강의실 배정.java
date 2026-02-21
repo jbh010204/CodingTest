@@ -11,7 +11,8 @@ class Main {
 
         @Override
         public int compareTo(D d){
-            return Integer.compare(this.x, d.x);
+            if(x != d.x) return Integer.compare(this.x, d.x);
+            else return Integer.compare(this.y, d.y);
         }
     }
     
